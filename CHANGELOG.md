@@ -7,6 +7,7 @@
 - `TODO.md`：教材產出進度追蹤。
 - `curriculum/common/docker-compose.yml`：一鍵啟動練習用 SQL Server（Azure SQL Edge，ARM64）。
 - `curriculum/common/seed.sql`：共用範例資料庫 `learning_db`（訂單系統，6 張資料表，SQL Server 2014 相容）。
+- `curriculum/day01_select/`：Day 1 課程——環境建置（Docker＋sqlcmd 互動介面教學）、SQLite→T-SQL 遷移對照、SELECT 基礎、WHERE 完整攻略，含 13 題練習與解說答案。
 
 ### [Fixed]
 
