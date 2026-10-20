@@ -1,10 +1,12 @@
-# 練習用 SQL Server（Azure SQL Edge：微軟官方 ARM64 版 SQL Server 引擎）
+# 練習用 SQL Server（官方 SQL Server 2022 Developer 版，僅限 x86_64 機器）
+# ⚠️ ARM64（樹莓派等）不可用：官方映像沒有 ARM64 版；Azure SQL Edge 在 16KB 頁
+#    大小的核心上會直接崩潰——完整實測結論見 SETUP.md 第 4 章
 # 啟動：docker compose up -d
 # 停止：docker compose down   （保留資料）
 # 刪除：docker compose down -v （連資料一起刪，重來時用）
 services:
   sqlserver:
-    image: mcr.microsoft.com/azure-sql-edge:latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sql_learning_db
     ports:
       - "1433:1433"
