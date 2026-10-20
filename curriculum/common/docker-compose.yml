@@ -1,0 +1,19 @@
+# 練習用 SQL Server（Azure SQL Edge：微軟官方 ARM64 版 SQL Server 引擎）
+# 啟動：docker compose up -d
+# 停止：docker compose down   （保留資料）
+# 刪除：docker compose down -v （連資料一起刪，重來時用）
+services:
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: sql_learning_db
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "LearningP@ssw0rd"
+      MSSQL_PID: "Developer"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
