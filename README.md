@@ -5,25 +5,25 @@
 
 ## 快速開始
 
-```bash
-# 1. 啟動練習用資料庫（微軟官方 ARM64 映像）
-cd curriculum/common
-docker compose up -d
+```bat
+:: 0. 環境安裝與連線問題：見 curriculum\common\SETUP.md
+::    （公司 SQL Server 2014 Express 連線為主線；Docker 練習庫僅 x86_64 機器可用）
 
-# 2. 載入範例資料庫 learning_db（訂單系統，6 張表）
-sqlcmd -S localhost,1433 -U sa -P 'LearningP@ssw0rd' -i seed.sql
+:: 1. 在公司機上連 SQL Server 2014 Express，載入範例資料庫 learning_db（6 張表）
+cd curriculum\common
+sqlcmd -S localhost\SQLEXPRESS -E -i seed.sql
 
-# 3. 從 Day 1 開始
-cd ../day01_select
+:: 2. 從 Day 1 開始
+cd ..\day01_select
 ```
 
-需要安裝：Docker、sqlcmd（安裝方式見 `curriculum/day01_select/lesson.md`）。
+sqlcmd 公司 SQL Server 通常已附帶；安裝與驗證方式見 `curriculum/common/SETUP.md`。
 
 ## 課程內容
 
 | 天數 | 主題 |
 |------|------|
-| [Day 1](curriculum/day01_select/lesson.md) | 環境建置、sqlcmd、SQLite→T-SQL 遷移、SELECT、WHERE ✅ |
+| [Day 1](curriculum/day01_select/lesson.md) | 連線與 sqlcmd、SQLite→T-SQL 遷移、SELECT、WHERE ✅ |
 | [Day 2](curriculum/day02_aggregate_join/lesson.md) | 聚合、GROUP BY/HAVING、JOIN ✅ |
 | Day 3 | 子查詢、CTE、INSERT/UPDATE/DELETE 安全實務（規劃中） |
 | Day 4 | 交易、索引與執行計畫、T-SQL 程式基礎（規劃中） |
@@ -40,9 +40,12 @@ cd ../day01_select
 
 ## 環境
 
-| | 練習環境 | 公司環境 |
+**以公司環境為主練習場**；本機 Docker 為備用，且僅 x86_64 機器可用
+（ARM64 如樹莓派已實測不可行，原因見 [`curriculum/common/SETUP.md`](curriculum/common/SETUP.md) 第 4 章）。
+
+| | 練習環境（備用） | 公司環境（主線） |
 |---|---|---|
-| 位置 | 本機 Docker（`localhost,1433`） | `localhost\SQLEXPRESS`（SQL Server 2014 Express） |
+| 位置 | 本機 Docker（`localhost,1433`，需 x86_64） | `localhost\SQLEXPRESS`（SQL Server 2014 Express） |
 | 驗證 | SQL 驗證（sa） | 混合模式 |
 
 教材語法以 **SQL Server 2014** 為準；練習環境引擎較新，遇到 ⚠️ 標示代表該語法 2014 沒有。

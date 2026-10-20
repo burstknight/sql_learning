@@ -1,10 +1,10 @@
-# Day 1：環境建置、sqlcmd、SELECT 基礎、WHERE
+# Day 1：連線與 sqlcmd、SELECT 基礎、WHERE
 
 建議時間分配（約 4.5 小時）：
 
 | 時間 | 內容 |
 |------|------|
-| 45 分 | 環境建置（Docker ＋ sqlcmd） |
+| 45 分 | 連上 SQL Server ＋ sqlcmd 互動介面 |
 | 30 分 | SQLite → T-SQL 遷移對照 |
 | 60 分 | SELECT 基礎 |
 | 90 分 | WHERE 完整攻略 |
@@ -12,54 +12,47 @@
 
 ---
 
-## 1. 環境建置
+## 1. 連上 SQL Server 與 sqlcmd
 
-### 1.1 啟動練習資料庫
-
-```bash
-cd curriculum/common
-docker compose up -d
-```
-
-第一次會下載映像（約 1.5GB），之後啟動只要幾秒。確認容器在跑：
-
-```bash
-docker ps	# 應看到 sql_learning_db，STATUS 為 Up
-```
-
-### 1.2 安裝 sqlcmd
+### 1.1 連線與載入範例資料庫
 
 sqlcmd 是微軟官方的終端機 SQL 工具，就是你要的「類似 sqlite3」的互動式介面。
-你的機器是 ARM64，有兩種裝法：
+安裝與環境設定（公司連線、Docker 練習庫、疑難排解）見
+[`common/SETUP.md`](../common/SETUP.md)，這裡只講今天要用的連線。
 
-**方式 A（推薦）：go-sqlcmd 單一執行檔**（微軟新版實作，Go 寫的，有 linux-arm64 版）
+主練習環境是公司的 SQL Server 2014 Express——最接近工作現場、也最準：
 
-到 <https://github.com/microsoft/go-sqlcmd/releases> 下載 `go-sqlcmd_*_linux_arm64.tar.gz`，
-解壓後把 `sqlcmd` 放進 `~/.local/bin` 或任何在 PATH 裡的目錄。
+```bat
+:: 公司機上（cmd/PowerShell），在 repo 的 curriculum\common\ 目錄：
+sqlcmd -S localhost\SQLEXPRESS -E -i seed.sql
 
-**方式 B：apt 套件 mssql-tools18**（官方 repo，Debian 13 可能要用相容的 repo 設定）
-
-```bash
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
-sudo add-apt-repository "$(curl https://packages.microsoft.com/config/debian/12/prod.list)"
-sudo apt update && sudo apt install -y mssql-tools18
+:: 驗證（三步都正常＝環境就緒）
+sqlcmd -S localhost\SQLEXPRESS -E -Q "SELECT GETDATE();"
+sqlcmd -S localhost\SQLEXPRESS -E -d learning_db -Q "SELECT COUNT(*) FROM dbo.Customers;"
 ```
 
-裝好後確認版本（有輸出就成功）：
+公司機器不方便 clone repo 時，把 `seed.sql` 拷貝過去執行即可。
+
+若你有 x86_64 的機器想跑 Docker 練習庫（樹莓派等 ARM64 機器不可行，原因見
+SETUP.md 第 4 章），連線字串換成：
 
 ```bash
-sqlcmd -? | head -3
+sqlcmd -S localhost,1433 -U sa		# 密碼 LearningP@ssw0rd，seed.sql 同樣適用
 ```
 
-### 1.3 sqlcmd 互動模式完整教學
+### 1.2 sqlcmd 互動模式完整教學
 
-連線到練習資料庫（互動模式）：
+連線到練習資料庫（互動模式，依環境二選一）：
+
+```bat
+sqlcmd -S localhost\SQLEXPRESS -E
+```
 
 ```bash
-sqlcmd -S localhost,1433 -U sa -P 'LearningP@ssw0rd'
+sqlcmd -S localhost,1433 -U sa		# Docker 練習庫（密碼 LearningP@ssw0rd）
 ```
 
-- `-S`：伺服器。本機 Docker 用 `localhost,1433`（逗號+埠號）；公司環境是 `localhost\SQLEXPRESS`（反斜槓+命名實例，**不是**埠號）
+- `-S`：伺服器。公司環境是 `localhost\SQLEXPRESS`（反斜槓+命名實例，**不是**埠號）；本機 Docker 用 `localhost,1433`（逗號+埠號）
 - `-U` / `-P`：SQL 驗證的帳號密碼。不加 `-P` 會改為提示輸入（**建議**：密碼不會留在 shell history 與畫面上）
 - 連上後出現輸入提示：
 
@@ -100,23 +93,13 @@ vim-dadbod 送 SQL 時不會有 `GO`，這是工具間的差異，之後遇到�
 
 看到結尾 `...` 就是被 `-y` 預設 30 截斷了，用 `sqlcmd -y 100` 重連再試。
 
-### 1.4 公司環境差異（SQL Server 2014 Express）
+### 1.3 公司環境差異（SQL Server 2014 Express）
 
-到職後連公司資料庫：
-
-```bash
-# Windows 驗證（混合模式下建議，不用密碼）
-sqlcmd -S localhost\SQLEXPRESS -E
-
-# SQL 驗證
-sqlcmd -S localhost\SQLEXPRESS -U some_user
-```
-
-- `-E` 就是 Windows 驗證。注意 shell 中 `\S` 不用跳脫（bash 的 `\` 只在字串中間才有意義；若 shell 吃掉 `\` 可加引號）
+- 驗證方式：`-E`（Windows 驗證，混合模式下建議，不用密碼）或 `-U 帳號`（SQL 驗證，省略 `-P` 會提示輸入）。細節見 SETUP.md 第 1 章
 - Express 版限制：單一資料庫最大 **10GB**、CPU/記憶體上限、**沒有 SQL Agent**（排程功能）
   —— 看到有人用「代理人排程」的教學，公司環境做不到，先跳過
 
-### 1.5 Neovim 插件（日常加速器，先裝不急著學）
+### 1.4 Neovim 插件（日常加速器，先裝不急著學）
 
 學習順序仍然是 sqlcmd 先行，把語法練熟。之後可在 Neovim 裝：
 
@@ -126,7 +109,7 @@ sqlcmd -S localhost\SQLEXPRESS -U some_user
 | `vim-dadbod-ui` | 圖形化瀏覽資料表、點選查詢 |
 | `nvim-treesitter` | SQL 語法高亮，複雜 SQL 可讀性大幅提升 |
 
-dadbod 連線字串範例（練習環境）：
+dadbod 連線字串範例（Docker 練習庫；公司命名實例的格式等實際連上再回填）：
 
 ```vim
 " 放在 Neovim 設定檔，之後 :DB 執行

@@ -12,6 +12,9 @@
 - `curriculum/day02_aggregate_join/`：Day 2 課程——聚合函數（COUNT/AVG 的 NULL 陷阱）、GROUP BY/HAVING、INNER/LEFT JOIN 與多表串接（含 ON vs WHERE 常見坑），含 12 題練習與解說答案。
 
 ### [Changed]
+- `curriculum/day01_select/lesson.md`：第 1 章改為公司環境優先（連線＋seed.sql 載入為起點），sqlcmd 安裝與 Docker 啟動細節移至 SETUP.md，章節瘦身重編為 1.1～1.4。
+- `curriculum/README.md`：新增 SETUP.md 連結與資料夾結構項目，環境對照改為「公司主線、本機 Docker 備用（僅 x86_64）」。
+- `README.md`：快速開始改為公司連線流程（cmd/bat 語彙，避免 bash 吃掉反斜槓），環境章補上公司主線與 ARM64 不可行的說明與連結。
 - `curriculum/common/docker-compose.yml`：練習映像從 Azure SQL Edge 換成官方 SQL Server 2022 Developer（前者已退役，且在 16KB 頁大小核心上實測會崩潰——見 SETUP.md 第 4 章）。
 - `TODO.md`：新增「到公司實測 SETUP.md 公司章節」等待辦。
 - `README.md`：從只有標題改為完整專案簡介——專案目的、快速開始步驟、5 天課程總覽、工具與環境對照。

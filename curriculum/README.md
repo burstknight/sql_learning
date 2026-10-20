@@ -10,7 +10,7 @@
 
 | 天數 | 資料夾 | 主題 | 重點 |
 |------|--------|------|------|
-| Day 1 | `day01_select/` | 環境建置＋SELECT 基礎 | Docker 環境、sqlcmd 互動介面、SQLite→T-SQL 遷移、SELECT、WHERE |
+| Day 1 | `day01_select/` | 連線＋SELECT 基礎 | 連上 SQL Server、sqlcmd 互動介面、SQLite→T-SQL 遷移、SELECT、WHERE |
 | Day 2 | `day02_aggregate_join/` | 聚合＋JOIN | GROUP BY、HAVING、各種 JOIN、多表關聯 |
 | Day 3 | `day03_subquery_dml/` | 子查詢＋資料操作 | 子查詢、CTE、INSERT/UPDATE/DELETE 安全實務 |
 | Day 4 | `day04_transaction_perf/` | 交易＋效能＋T-SQL 程式 | 交易與隔離級別、索引與執行計畫、變數與流程控制 |
@@ -24,7 +24,8 @@ Day 3～5 規劃中，完成後會出現在 TODO.md。
 curriculum/
 ├── README.md          ← 本檔案
 ├── common/
-│   ├── docker-compose.yml  ← 練習用資料庫（一鍵啟動）
+│   ├── SETUP.md            ← 安裝與連線手冊（公司環境主線、Docker、疑難排解）
+│   ├── docker-compose.yml  ← 練習用資料庫（僅 x86_64 機器，ARM64 不可行見 SETUP.md）
 │   └── seed.sql            ← 範例資料庫（模擬公司訂單系統，全課程共用）
 ├── day01_select/
 │   ├── lesson.md      ← 觀念講解
@@ -35,15 +36,19 @@ curriculum/
 
 ## 使用方式
 
-1. 每天先讀 `lesson.md`，邊讀邊在 sqlcmd 裡試範例
-2. 做 `exercises.sql`（每題有提示，先自己寫再看 `answers.sql`）
-3. 練習檔可直接在 sqlcmd 互動模式貼上執行，或用 `sqlcmd -i exercises.sql` 整份跑
+1. 環境還沒就緒或連不上時，先看 [`common/SETUP.md`](common/SETUP.md)
+2. 每天先讀 `lesson.md`，邊讀邊在 sqlcmd 裡試範例
+3. 做 `exercises.sql`（每題有提示，先自己寫再看 `answers.sql`）
+4. 練習檔可直接在 sqlcmd 互動模式貼上執行，或用 `sqlcmd -i exercises.sql` 整份跑
 
 ## 練習環境 vs 公司環境
 
-| | 練習環境（本機） | 公司環境 |
+**本課程以公司環境為主練習場**（最接近工作現場）；本機 Docker 為備用，
+需要 x86_64 機器（ARM64 如樹莓派實測不可行，見 SETUP.md 第 4 章）。
+
+| | 練習環境（本機備用） | 公司環境（主線） |
 |---|---|---|
-| 伺服器 | Docker 容器（Azure SQL Edge），`localhost,1433` | `localhost\SQLEXPRESS`（命名實例） |
+| 伺服器 | Docker 容器（SQL Server 2022），`localhost,1433` | `localhost\SQLEXPRESS`（命名實例） |
 | 驗證 | SQL 驗證（sa） | 混合模式（Windows 驗證＋SQL 驗證） |
 | 版本 | 現代引擎（相容層級可調） | SQL Server 2014 |
 
