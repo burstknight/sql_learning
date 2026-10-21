@@ -10,6 +10,7 @@
 - `curriculum/common/seed.sql`：共用範例資料庫 `learning_db`（訂單系統，6 張資料表，SQL Server 2014 相容）。
 - `curriculum/day01_select/`：Day 1 課程——環境建置（Docker＋sqlcmd 互動介面教學）、SQLite→T-SQL 遷移對照、SELECT 基礎、WHERE 完整攻略，含 13 題練習與解說答案。
 - `curriculum/day02_aggregate_join/`：Day 2 課程——聚合函數（COUNT/AVG 的 NULL 陷阱）、GROUP BY/HAVING、INNER/LEFT JOIN 與多表串接（含 ON vs WHERE 常見坑），含 12 題練習與解說答案。
+- `AGENTS.md`：新增「工作流程（Workflow）」章節——動工前確認、編輯規範、Commit 規則（每次修改都要提交，且說明改了什麼與為何）、大變動拆成多次 commit、CHANGELOG 與 TODO 維護方式、Python 一律使用 `uv`、未經允許不得 push、完成前檢查清單與回報格式。
 
 ### [Changed]
 - `curriculum/day01_select/lesson.md`：第 1 章改為公司環境優先（連線＋seed.sql 載入為起點），sqlcmd 安裝與 Docker 啟動細節移至 SETUP.md，章節瘦身重編為 1.1～1.4。
@@ -18,6 +19,7 @@
 - `curriculum/common/docker-compose.yml`：練習映像從 Azure SQL Edge 換成官方 SQL Server 2022 Developer（前者已退役，且在 16KB 頁大小核心上實測會崩潰——見 SETUP.md 第 4 章）。
 - `TODO.md`：新增「到公司實測 SETUP.md 公司章節」等待辦。
 - `README.md`：從只有標題改為完整專案簡介——專案目的、快速開始步驟、5 天課程總覽、工具與環境對照。
+- `AGENTS.md`：「Repo status」改寫為專案現況（5 天教材、Day 1–2 已完成、Day 3–5 規劃中、SQL Server 2014 為目標方言、無 build/test/lint/CI、驗證靠 sqlcmd 手動執行），並將與工作流程重覆的內容改為指向 `## Workflow` 的對應章節。
 
 ### [Fixed]
 
