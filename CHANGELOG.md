@@ -20,6 +20,7 @@
 - `TODO.md`：新增「到公司實測 SETUP.md 公司章節」等待辦。
 - `README.md`：從只有標題改為完整專案簡介——專案目的、快速開始步驟、5 天課程總覽、工具與環境對照。
 - `AGENTS.md`：「Repo status」改寫為專案現況（5 天教材、Day 1–2 已完成、Day 3–5 規劃中、SQL Server 2014 為目標方言、無 build/test/lint/CI、驗證靠 sqlcmd 手動執行），並將與工作流程重覆的內容改為指向 `## Workflow` 的對應章節。
+- `.gitignore`：忽略 `.venv/`（Python 虛擬環境目錄）。
 
 ### [Fixed]
 
