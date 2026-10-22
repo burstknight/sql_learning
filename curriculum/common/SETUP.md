@@ -231,11 +231,11 @@ sqlcmd -S localhost -U sa
 
 ---
 
-## 四、ARM64 Linux（與本機 Pi 5）實測結論：此路不通 ❌
+## 四、ARM64 Linux（與本機 Pi 5）：16KB 頁核心的兩條死路 ❌（4KB 核心待驗證）
 
 本教材原規劃用樹莓派 5 跑 Azure SQL Edge（微軟官方唯一的 ARM64 SQL Server
-容器）。2026-10-20 於本機（Pi 5 16GB、Debian 13 aarch64）完整實測，兩條路
-都走死，記錄如下以免後人重蹈覆轍。
+容器）。2026-10-20 於本機（Pi 5 16GB、Debian 13 aarch64）完整實測，預設核心下
+兩條路都走死，記錄如下以免後人重蹈覆轍；最後一小節是還沒實測的 4KB 頁核心路線。
 
 ### ❌ 路線 A：Azure SQL Edge 原生 ARM64
 
@@ -262,11 +262,32 @@ getconf PAGE_SIZE	# 輸出 16384（16KB）＝ 這條路不通；4096 才有機�
 - 結論：就算打地鼠打完，TCG 模擬速度慢、且有執行期記憶體錯位風險——
   不適合作為每天要用的練習環境，到此止步
 
-### 如果未來仍想在 ARM64 本機跑 SQL Server（未實測，僅記錄）
+### 🧪 待驗證：換成 4KB 頁核心後再走路線 A（尚未實測）
 
-- 換成 4KB 頁核心（Debian 通用 arm64 核心理論上是 4KB）→ 路線 A 的 jemalloc
-  問題應會消失。但 Pi 5 上通用核心的開機相容性未驗證，**可能讓常開服務開不了機**，
-  動手前先想好救援方式（另備 SD 卡、接螢幕鍵盤）
+Raspberry Pi OS 的核心有兩種頁大小：預設的 `kernel_2712.img` 是 **16KB** 頁，
+另外附一份 `kernel8.img` 是 **4KB** 頁。把開機設定指到 4KB 版本後，路線 A 的
+jemalloc 崩潰應該就會消失，可以直接跑 `mcr.microsoft.com/azure-sql-edge`
+（arm64 原生映像，已 pull 得到）。
+
+做法（改完要重開機，且**改錯會開不了機**）：
+
+1. 先確認素材都在：`ls /boot/firmware/kernel8.img`、`ls -d /lib/modules/*+rpt-rpi-v8`
+2. 備份 `/boot/firmware/config.txt`，並想好救援方式（另一張 SD 卡，或接螢幕鍵盤）
+3. 在 `/boot/firmware/config.txt` 的 `[all]` 段落加一行 `kernel=kernel8.img`
+4. 重開機後驗證 `getconf PAGE_SIZE` 應變成 **4096**
+5. 再啟動 SQL Edge 容器；能起來就代表路線 A 復活
+
+風險與限制：
+
+- Pi 5 跑 4KB 頁核心等於用 Pi 4 世代的核心設定，部分周邊／效能特性可能不同
+- Azure SQL Edge 已於 2025-11 退役，映像不再更新、也不支援全文檢索／In-Memory OLTP／
+  CLR／SQL Agent；引擎血統是 2019（15.x），`COMPATIBILITY_LEVEL = 120` 只能蓋掉
+  部分差異——教材語法仍要靠 `tools/check.sh` 離線檢查把關
+- 回滾：把 `kernel=` 那行刪掉或改回 `kernel=kernel_2712.img` 再重開機
+- 驗證成功後，本章與 `docker-compose.yml` 再一起更新（見 `TODO.md`）
+
+### 其他選項
+
 - 或改用 x86_64 機器（第 3 章）
 - 或直接用公司環境（第 1 章——本課程主線，也正是最準的目標環境）
 
@@ -281,7 +302,7 @@ getconf PAGE_SIZE	# 輸出 16384（16KB）＝ 這條路不通；4096 才有機�
 | `The database 'learning_db' does not exist` | 還沒載入 seed.sql（第 1.3 或 3.3 節） |
 | 連得上但中文變亂碼 | 終端機編碼：`locale` 應含 UTF-8 |
 | SQL 指令貼上沒反應 | sqlcmd 要獨立一行 `GO` 才會執行（見 Day 1 lesson） |
-| ARM Linux 上容器一啟動就死、log 有 jemalloc 字樣 | 核心是 16KB 頁，見第 4 章 ❌ |
+| ARM Linux 上容器一啟動就死、log 有 jemalloc 字樣 | 核心是 16KB 頁，換 4KB 頁核心可解但尚未驗證，見第 4 章 |
 | qemu/binfmt 環境出現 `failed to map segment` | 同上，見第 4 章 ❌ |
-| 不確定自己的核心頁大小 | `getconf PAGE_SIZE`：16384 ＝ 16KB（第 4 章的兩條路都不通） |
+| 不確定自己的核心頁大小 | `getconf PAGE_SIZE`：16384 ＝ 16KB（第 4 章的兩條死路）；4096 ＝ 4KB |
 | `GO` 被 SQL Server 語法檢查罵 | `GO` 是 sqlcmd 等工具的指令、不是 T-SQL；C# 與 vim-dadbod 送 SQL 時都沒有 GO |

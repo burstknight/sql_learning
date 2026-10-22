@@ -16,6 +16,11 @@
 - `AGENTS.md`：新增「工作流程（Workflow）」章節——動工前確認、編輯規範、Commit 規則（每次修改都要提交，且說明改了什麼與為何）、大變動拆成多次 commit、CHANGELOG 與 TODO 維護方式、Python 一律使用 `uv`、未經允許不得 push、完成前檢查清單與回報格式。
 
 ### [Changed]
+- `AGENTS.md`：專案現況改為「離線檢查工具＋手動實跑」——新增 `tools/check.sh`／`tools/test.sh` 指令、三層檢查說明與已知限制（暫存表、`ALTER TABLE` 批次跳過參考檢查），移除「完全沒有 build/test」與「ARM64 不可行」的過時敘述；編輯規則與完成檢查清單補上執行檢查工具。
+- `README.md`：新增「教材檢查（離線）」章節與工具清單項目；環境章改為「ARM64 需先換 4KB 頁核心，尚未驗證」。
+- `curriculum/README.md`：使用方式補上離線檢查步驟；環境對照與資料夾結構的 ARM64 敘述同步更新。
+- `curriculum/common/SETUP.md`：第 4 章標題與內容改寫為「16KB 頁核心下的兩條死路」，並新增「換 4KB 頁核心（`kernel8.img`）再走 Azure SQL Edge」的待驗證路線、風險與回滾方式；疑難排解同步更新。
+- `TODO.md`：補上檢查工具完成項、Pi 5 4KB 核心實測待辦與工具限制，並修正 Day 1／Day 2 兩條進度黏在同一行的格式。
 - `curriculum/day01_select/lesson.md`：第 1 章改為公司環境優先（連線＋seed.sql 載入為起點），sqlcmd 安裝與 Docker 啟動細節移至 SETUP.md，章節瘦身重編為 1.1～1.4。
 - `curriculum/README.md`：新增 SETUP.md 連結與資料夾結構項目，環境對照改為「公司主線、本機 Docker 備用（僅 x86_64）」。
 - `README.md`：快速開始改為公司連線流程（cmd/bat 語彙，避免 bash 吃掉反斜槓），環境章補上公司主線與 ARM64 不可行的說明與連結。

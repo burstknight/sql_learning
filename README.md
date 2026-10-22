@@ -19,6 +19,25 @@ cd ..\day01_select
 
 sqlcmd 公司 SQL Server 通常已附帶；安裝與驗證方式見 `curriculum/common/SETUP.md`。
 
+## 教材檢查（離線）
+
+不用連資料庫也能確認教材寫的 T-SQL 是 SQL Server 2014 能跑的（需要 .NET 8 以上 SDK）：
+
+```bash
+tools/check.sh                                # 檢查 curriculum 下所有 .sql
+tools/check.sh curriculum/day01_select        # 只檢查某一天
+tools/check.sh 某個檔案.sql --verbose          # 順便列出每個檔案幾個批次
+tools/test.sh                                 # 檢查工具自己的測試（乾淨／違規各一份樣本）
+```
+
+三層檢查，全部離線：
+
+1. **語法**：微軟官方 ScriptDom 的 `TSql120Parser`（SQL Server 2014 文法），`DROP ... IF EXISTS`、`FOR JSON` 等 2016+ 語法會直接語法錯誤
+2. **參考**：DacFx 以 `SqlServerVersion.Sql120` 建立模型（schema 取自 `curriculum/common/seed.sql`），抓不存在的資料表／欄位
+3. **版本**：`tools/sqlcheck/compat2014.txt` 黑名單，補解析器放行的 2016+ 函式（例如 `STRING_AGG`、`TRIM`）
+
+有錯誤時離開碼為 1，可直接接進 git hook 或編輯器。
+
 ## 課程內容
 
 | 天數 | 主題 |
@@ -37,11 +56,13 @@ sqlcmd 公司 SQL Server 通常已附帶；安裝與驗證方式見 `curriculum/
 - **sqlcmd**：終端機互動式 SQL shell（類似 sqlite3），Day 1 有完整教學
 - **Neovim**：vim-dadbod、vim-dadbod-ui、nvim-treesitter 作為日常查詢加速器
 - **C#**：Day 5 介紹 Microsoft.Data.SqlClient、Dapper、Entity Framework Core
+- **tools/check.sh**：離線 T-SQL 2014 語法檢查（.NET 8+，不需資料庫）
 
 ## 環境
 
-**以公司環境為主練習場**；本機 Docker 為備用，且僅 x86_64 機器可用
-（ARM64 如樹莓派已實測不可行，原因見 [`curriculum/common/SETUP.md`](curriculum/common/SETUP.md) 第 4 章）。
+**以公司環境為主練習場**；本機 Docker 為備用，且僅 x86_64 機器可直接使用
+（ARM64 如樹莓派 5 預設是 16KB 頁核心，SQL Server 容器會崩潰；換 4KB 頁核心的做法
+見 [`curriculum/common/SETUP.md`](curriculum/common/SETUP.md) 第 4 章，尚未驗證）。
 
 | | 練習環境（備用） | 公司環境（主線） |
 |---|---|---|

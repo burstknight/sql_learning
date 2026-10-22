@@ -25,7 +25,7 @@ curriculum/
 ├── README.md          ← 本檔案
 ├── common/
 │   ├── SETUP.md            ← 安裝與連線手冊（公司環境主線、Docker、疑難排解）
-│   ├── docker-compose.yml  ← 練習用資料庫（僅 x86_64 機器，ARM64 不可行見 SETUP.md）
+│   ├── docker-compose.yml  ← 練習用資料庫（需 x86_64 或 4KB 頁核心，見 SETUP.md 第 4 章）
 │   └── seed.sql            ← 範例資料庫（模擬公司訂單系統，全課程共用）
 ├── day01_select/
 │   ├── lesson.md      ← 觀念講解
@@ -40,11 +40,14 @@ curriculum/
 2. 每天先讀 `lesson.md`，邊讀邊在 sqlcmd 裡試範例
 3. 做 `exercises.sql`（每題有提示，先自己寫再看 `answers.sql`）
 4. 練習檔可直接在 sqlcmd 互動模式貼上執行，或用 `sqlcmd -i exercises.sql` 整份跑
+5. 寫完可用 `tools/check.sh`（在專案根目錄執行）離線檢查語法是否符合 SQL Server 2014，
+   不需要連線；規則與限制見根目錄 `README.md` 的「教材檢查（離線）」章節
 
 ## 練習環境 vs 公司環境
 
 **本課程以公司環境為主練習場**（最接近工作現場）；本機 Docker 為備用，
-需要 x86_64 機器（ARM64 如樹莓派實測不可行，見 SETUP.md 第 4 章）。
+需要 x86_64 機器（ARM64 如樹莓派 5 預設是 16KB 頁核心，容器會崩潰；
+換 4KB 頁核心的做法見 SETUP.md 第 4 章，尚未驗證）。
 
 | | 練習環境（本機備用） | 公司環境（主線） |
 |---|---|---|

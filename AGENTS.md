@@ -10,9 +10,25 @@ with safe database access from C#.
   with ⚠️ in the lessons, because the company server is 2014.
 - Practice environment: the company SQL Server 2014 Express instance `localhost\SQLEXPRESS`
   (primary), or the Docker SQL Server 2022 container in `curriculum/common/docker-compose.yml`
-  (x86_64 only — ARM64 was proven infeasible, see `curriculum/common/SETUP.md`).
-- There is still **no build, test, lint, or CI**. Validation is manual: run the `.sql` files with
-  `sqlcmd` against a live server.
+  (x86_64 only; on ARM64 a 4 KB-page kernel is required but not yet verified, see
+  `curriculum/common/SETUP.md` §4).
+- Offline T-SQL check (no database needed, .NET 8+ SDK). Run from the repo root:
+
+  ```bash
+  tools/check.sh                        # all .sql under curriculum/
+  tools/check.sh curriculum/day01_select
+  tools/check.sh path/to/file.sql --verbose
+  tools/test.sh                         # self-tests of the checker
+  ```
+
+  `tools/check.sh` exits 1 when it finds a problem. It combines the ScriptDom
+  `TSql120Parser` (2014 grammar), a DacFx `SqlServerVersion.Sql120` model built from
+  `curriculum/common/seed.sql` (unresolved table/column references), and the rule list in
+  `tools/sqlcheck/compat2014.txt` (2016+ functions the parser accepts, e.g. `STRING_AGG`).
+  Known gaps: batches that use temp tables (`#t`) or `ALTER TABLE` skip the reference check.
+- End-to-end validation is still manual: run the `.sql` files with `sqlcmd` against a live
+  server and compare the `-- 預期：` values in `answers.sql`. There is no CI (the git remote is a
+  local Gitea instance).
 - Do not invent commands — when you add tooling, document the exact commands here and in `README.md`.
 
 ## Workflow
@@ -30,6 +46,8 @@ with safe database access from C#.
 - Tabs (width 4), LF line endings, UTF-8, trailing newline — every file type. See `## Formatting`.
 - Run `clang-format` on any C/C++/C# you add.
 - Lessons are Traditional Chinese prose; SQL is T-SQL and must stay SQL Server 2014 compatible.
+  After editing any `.sql`, run `tools/check.sh` and fix what it reports (or mark the lesson line
+  with ⚠️ if the newer syntax is intentional).
 - Each day folder holds `lesson.md` (concepts), `exercises.sql` (practice), and
   `answers.sql` (answers + explanations) — keep that shape, and keep exercises and answers in sync.
 - Keep `README.md`, `curriculum/README.md`, `TODO.md`, and `CHANGELOG.md` in sync with whatever
@@ -110,6 +128,7 @@ Day 1→3 的進度才連得起來，exercises.sql 也才有對應的參考答�
 Before reporting a task as finished:
 
 - [ ] `git status` is clean — every change is committed.
+- [ ] `tools/check.sh` passes (and `tools/test.sh` if the checker itself changed).
 - [ ] Every new commit states what changed and why.
 - [ ] `CHANGELOG.md` records the user-visible changes.
 - [ ] `TODO.md` reflects the current state (new items added, finished items ticked).
