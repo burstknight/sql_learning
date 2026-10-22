@@ -1,0 +1,44 @@
+# SQL Server 2014（版本代號 120）相容性黑名單
+#
+# 格式：<regex><TAB><說明>
+#   一行一條規則；# 開頭為註解；比對時忽略大小寫。
+#   只收「TSql120Parser 會放行、但 SQL Server 2014 沒有」的東西，
+#   解析器本身就會擋下的語法（例如 DROP ... IF EXISTS）列在最後當保險。
+#
+# 掃描前會先把註解、字串、[識別碼] 內容換成空白，所以說明文字不會誤觸規則。
+
+# ---- 2016+ ----
+\bSTRING_SPLIT\s*\(	STRING_SPLIT 需要 SQL Server 2016 以上
+\bOPENJSON\s*\(	OPENJSON 需要 SQL Server 2016 以上
+\bJSON_VALUE\s*\(	JSON_VALUE 需要 SQL Server 2016 以上
+\bJSON_QUERY\s*\(	JSON_QUERY 需要 SQL Server 2016 以上
+\bISJSON\s*\(	ISJSON 需要 SQL Server 2016 以上
+\bDATEDIFF_BIG\s*\(	DATEDIFF_BIG 需要 SQL Server 2016 以上
+\bAT\s+TIME\s+ZONE\b	AT TIME ZONE 需要 SQL Server 2016 以上
+\bSESSION_CONTEXT\s*\(	SESSION_CONTEXT 需要 SQL Server 2016 以上
+\bCOMPRESS\s*\(	COMPRESS 需要 SQL Server 2016 以上
+\bDECOMPRESS\s*\(	DECOMPRESS 需要 SQL Server 2016 以上
+
+# ---- 2017+ ----
+\bSTRING_AGG\s*\(	STRING_AGG 需要 SQL Server 2017 以上
+\bSTRING_ESCAPE\s*\(	STRING_ESCAPE 需要 SQL Server 2017 以上
+\bCONCAT_WS\s*\(	CONCAT_WS 需要 SQL Server 2017 以上
+\bTRIM\s*\(	TRIM 需要 SQL Server 2017 以上（2014 只有 LTRIM／RTRIM）
+\bTRANSLATE\s*\(	TRANSLATE 需要 SQL Server 2017 以上
+
+# ---- 2019+ ----
+\bAPPROX_COUNT_DISTINCT\s*\(	APPROX_COUNT_DISTINCT 需要 SQL Server 2019 以上
+
+# ---- 2022+ ----
+\bGREATEST\s*\(	GREATEST 需要 SQL Server 2022 以上
+\bLEAST\s*\(	LEAST 需要 SQL Server 2022 以上
+\bDATETRUNC\s*\(	DATETRUNC 需要 SQL Server 2022 以上
+\bGENERATE_SERIES\s*\(	GENERATE_SERIES 需要 SQL Server 2022 以上
+\bIS\s+(NOT\s+)?DISTINCT\s+FROM\b	IS [NOT] DISTINCT FROM 需要 SQL Server 2022 以上
+
+# ---- 保險規則：解析器已會擋，留下來是怕哪天換了 parser 版本 ----
+\bDROP\s+(TABLE|VIEW|PROCEDURE|FUNCTION|INDEX|SCHEMA|TRIGGER|TYPE)\s+IF\s+EXISTS\b	DROP ... IF EXISTS 需要 SQL Server 2016 以上
+\bCREATE\s+OR\s+ALTER\b	CREATE OR ALTER 需要 SQL Server 2016 SP1 以上
+\bFOR\s+JSON\b	FOR JSON 需要 SQL Server 2016 以上
+\bSYSTEM_VERSIONING\s*=	時序表需要 SQL Server 2016 以上
+\bPERIOD\s+FOR\s+SYSTEM_TIME\b	時序表需要 SQL Server 2016 以上

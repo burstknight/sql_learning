@@ -3,6 +3,9 @@
 
 ## [Unreleased]
 ### [Added]
+- `tools/sqlcheck/`：離線 T-SQL 2014 檢查器——ScriptDom `TSql120Parser`（2014 文法）＋ DacFx `SqlServerVersion.Sql120` 模型（抓不存在的資料表／欄位）＋ `compat2014.txt` 黑名單（補 `STRING_AGG`、`TRIM` 等解析器放行的 2016+ 函式）。
+- `tools/check.sh`：一行檢查 `curriculum/` 下所有 `.sql` 是否符合 SQL Server 2014，不需要資料庫；有問題時離開碼為 1。
+- `tools/test.sh` 與 `tools/sqlcheck/tests/`：檢查工具的自測案例（一份乾淨 2014 語法、一份故意違規的 2016+ 語法、以及教材本身）。
 - `curriculum/common/SETUP.md`：安裝與環境設定手冊——公司 SQL Server 2014 Express 連線與驗證（主線）、Windows 靜默安裝、x86_64 Linux Docker 佈署、ARM64（樹莓派 5）實測不可行結論、疑難排解。
 - `curriculum/README.md`：5 天 SQL 教材學習路線圖、資料夾結構、環境對照與工具清單。
 - `TODO.md`：教材產出進度追蹤。
