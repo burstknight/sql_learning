@@ -16,6 +16,7 @@
 - `curriculum/day03_subquery_dml/lesson.md`：Day 3 課程——子查詢（純量／IN／EXISTS／相關子查詢／派生資料表）、CTE 與遞迴 CTE、型別轉換與 NULL，以及 INSERT／UPDATE／DELETE 的安全流程；特別用真實資料示範 `NOT IN` 遇到 NULL 的地雷。
 - `curriculum/day03_subquery_dml/exercises.sql`、`answers.sql`：Day 3 練習與解說答案——9 題查詢＋5 題 DML；DML 全部以 `BEGIN TRAN` 包裹並在結尾 `ROLLBACK`，正常執行不會留下資料變更。
 - `curriculum/day04_transaction_perf/lesson.md`：Day 4 課程——交易與 `TRY/CATCH`／`XACT_STATE`、四種隔離級別與兩視窗 lab（`##IsolationLab`）、索引與 SARGable、`STATISTICS IO` 與執行計畫、變數／流程控制／預存程序／動態 SQL（`sys.sp_executesql` 參數化）。
+- `curriculum/day04_transaction_perf/exercises.sql`、`answers.sql`：Day 4 練習與解說答案——12 題交易／`TRY/CATCH`／`SAVE TRANSACTION`／索引與 SARGable／變數與流程控制／預存程序／動態 SQL；需要改資料或建索引的題目都包在交易中並在結尾 `ROLLBACK`。
 - `AGENTS.md`：新增「工作流程（Workflow）」章節——動工前確認、編輯規範、Commit 規則（每次修改都要提交，且說明改了什麼與為何）、大變動拆成多次 commit、CHANGELOG 與 TODO 維護方式、Python 一律使用 `uv`、未經允許不得 push、完成前檢查清單與回報格式。
 
 ### [Changed]
