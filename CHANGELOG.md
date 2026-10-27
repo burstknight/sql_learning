@@ -21,7 +21,7 @@
 - `README.md`：課程總覽的 Day 3 改為連結 `curriculum/day03_subquery_dml/lesson.md` 並標記完成。
 - `curriculum/README.md`：路線圖的待完成範圍改為 Day 4～5，資料夾結構加入 `day03_subquery_dml/`。
 - `TODO.md`：勾選 Day 3 教材產出完成。
-- `AGENTS.md`：專案現況改為「離線檢查工具＋手動實跑」——新增 `tools/check.sh`／`tools/test.sh` 指令、三層檢查說明與已知限制（暫存表、`ALTER TABLE` 批次跳過參考檢查），移除「完全沒有 build/test」與「ARM64 不可行」的過時敘述；編輯規則與完成檢查清單補上執行檢查工具。
+- `AGENTS.md`：專案現況改為「離線檢查工具＋手動實跑」——新增 `tools/check.sh`／`tools/test.sh` 指令、三層檢查說明與已知限制（暫存表、`ALTER TABLE`、`sp_executesql` 批次跳過參考檢查），移除「完全沒有 build/test」與「ARM64 不可行」的過時敘述；編輯規則與完成檢查清單補上執行檢查工具。
 - `README.md`：新增「教材檢查（離線）」章節與工具清單項目；環境章改為「ARM64 需先換 4KB 頁核心，尚未驗證」。
 - `curriculum/README.md`：使用方式補上離線檢查步驟；環境對照與資料夾結構的 ARM64 敘述同步更新。
 - `curriculum/common/SETUP.md`：第 4 章標題與內容改寫為「16KB 頁核心下的兩條死路」，並新增「換 4KB 頁核心（`kernel8.img`）再走 Azure SQL Edge」的待驗證路線、風險與回滾方式；疑難排解同步更新。
@@ -36,6 +36,7 @@
 - `.gitignore`：忽略 `.venv/`（Python 虛擬環境目錄）。
 
 ### [Fixed]
+- `tools/sqlcheck`：含 `sp_executesql` 的批次不再被誤報「無法解析的參考」——DacFx 模型沒有系統預存程序，改為跳過該批次的參考檢查並顯示提醒（語法與 2014 黑名單檢查照常）。
 
 ### [Security]
 

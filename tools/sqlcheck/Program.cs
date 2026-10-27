@@ -322,6 +322,17 @@ internal static class Program {
 			if (HasTempTable(body))
 				continue;
 
+			// DacFx 沒有內建系統預存程序，sp_executesql 的參數會被當成無法解析的物件
+			if (HasSystemProcedure(body)) {
+				issues.Add(new Issue(
+					display,
+					batch.Line,
+					1,
+					KindWarning,
+					"含 sp_executesql，DacFx 沒有系統預存程序模型，已跳過此批次的參考檢查"));
+				continue;
+			}
+
 			// DacFx 的模型是宣告式的，不接受用 ALTER TABLE 追加欄位／條件約束
 			if (script.Batches.SelectMany(b => b.Statements).Any(s => s is AlterTableStatement)) {
 				issues.Add(new Issue(
@@ -377,6 +388,11 @@ internal static class Program {
 	}
 
 	private static bool HasTempTable(string text) => Regex.IsMatch(StripCommentsAndStrings(text), @"##?[A-Za-z_0-9]");
+
+	private static bool HasSystemProcedure(string text) => Regex.IsMatch(
+		StripCommentsAndStrings(text),
+		@"\bsp_executesql\b",
+		RegexOptions.IgnoreCase);
 
 	private static List<string> ExtractSchema(string path) {
 		var parser = new TSql120Parser(true);

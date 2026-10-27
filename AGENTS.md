@@ -25,7 +25,8 @@ with safe database access from C#.
   `TSql120Parser` (2014 grammar), a DacFx `SqlServerVersion.Sql120` model built from
   `curriculum/common/seed.sql` (unresolved table/column references), and the rule list in
   `tools/sqlcheck/compat2014.txt` (2016+ functions the parser accepts, e.g. `STRING_AGG`).
-  Known gaps: batches that use temp tables (`#t`) or `ALTER TABLE` skip the reference check.
+  Known gaps: batches that use temp tables (`#t`), `sp_executesql`, or `ALTER TABLE` skip the
+  reference check (each is reported as a warning so it is visible).
 - End-to-end validation is still manual: run the `.sql` files with `sqlcmd` against a live
   server and compare the `-- 預期：` values in `answers.sql`. There is no CI (the git remote is a
   local Gitea instance).
