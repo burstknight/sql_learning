@@ -105,7 +105,7 @@ LEFT JOIN dbo.Orders AS o
 GROUP BY e.LastName, e.FirstName
 ORDER BY 接單數 DESC;
 GO
--- 預期：林小芳 5、李惠雯 5、陳大明 4、黃志強/吳雅婷/張俊傑/劉美玲/王建國 各 0
+-- 預期：陳大明 7、林小芳 6、李惠雯 5、黃志強/吳雅婷/張俊傑/劉美玲/王建國 各 0
 -- GROUP BY 要放 LastName 和 FirstName 兩欄（SELECT 非聚合欄位都進 GROUP BY）。
 
 -- 10. 訂單數 ≥ 2 的客戶
@@ -152,7 +152,7 @@ INNER JOIN dbo.OrderDetails AS d
 GROUP BY e.LastName, e.FirstName
 ORDER BY 接單總金額 DESC;
 GO
--- 預期：林小芳 4334、陳大明 3780、李惠雯 3160
+-- 預期：陳大明 6245、林小芳 5144、李惠雯 3520
 -- 從沒接單的員工不會出現（INNER JOIN 配不到就被過濾）——
 -- 這正是 INNER 與 LEFT 的語意差異：本題問「實際有業績的前三名」，
 -- 沒業績的人本來就不在候選名單內。

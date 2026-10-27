@@ -46,6 +46,7 @@
 - `.gitignore`：忽略 `.venv/`（Python 虛擬環境目錄）。
 
 ### [Fixed]
+- `curriculum/day02_aggregate_join/answers.sql`：修正第 9、12 題的員工統計預期值——實際為陳大明 7 張／6245.00、林小芳 6 張／5144.00、李惠雯 5 張／3520.00。
 - `tools/sqlcheck`：含 `sp_executesql` 的批次不再被誤報「無法解析的參考」——DacFx 模型沒有系統預存程序，改為跳過該批次的參考檢查並顯示提醒（語法與 2014 黑名單檢查照常）。
 
 ### [Security]
