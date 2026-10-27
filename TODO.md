@@ -6,7 +6,7 @@
 - [x] Day 1：環境建置、sqlcmd、SQLite→T-SQL 遷移、SELECT、WHERE
 - [x] Day 2：聚合、GROUP BY/HAVING、JOIN
 - [x] Day 3：子查詢、CTE、INSERT/UPDATE/DELETE 安全實務
-- [ ] Day 4：交易與隔離級別、索引與執行計畫、變數與流程控制
+- [x] Day 4：交易與隔離級別、索引與執行計畫、變數與流程控制
 - [ ] Day 5：視窗函數、實務食譜、C# 串接（SqlClient/Dapper/EF Core）
 
 ## 待辦
@@ -18,7 +18,7 @@
       `seed.sql` 載得進去，且 Day 1／Day 2 `answers.sql` 的 `-- 預期：` 數值全部對上
 - [ ] 承上：驗證成功後更新 `curriculum/common/SETUP.md` 第 4 章（把「待驗證」改成實測結果）
       與 `curriculum/common/docker-compose.yml`（改回 `azure-sql-edge`、連接埠綁 `127.0.0.1`）
-- [ ] 檢查工具限制：含暫存表（`#t`）與 `ALTER TABLE` 的批次目前跳過 DacFx 參考檢查，
+- [ ] 檢查工具限制：含暫存表（`#t`）、`sp_executesql` 與 `ALTER TABLE` 的批次目前跳過 DacFx 參考檢查，
       想辦法讓 Day 3 之後的 DDL／DML 也能驗證
 - [ ] 檢查工具延伸：掃描 `lesson.md` 的 SQL 程式碼區塊（跳過標 ⚠️ 的新版語法示範），
       讓教材本文的範例也自動驗證
