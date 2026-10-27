@@ -5,7 +5,10 @@
 Self-study SQL curriculum: 5 dense days that carry SQLite basics into enterprise T-SQL and end
 with safe database access from C#.
 
-- Day 1 and Day 2 are written; Day 3–5 are planned (`TODO.md` tracks progress).
+- All 5 days are written and live-validated (`TODO.md` tracks what is left): Day 1 SELECT,
+  Day 2 aggregates/JOIN, Day 3 subqueries/DML, Day 4 transactions/performance, Day 5 window
+  functions plus C# access. Day 5's C# section is **prose and copyable snippets only** — there is
+  no compiled project, no `.csproj`, and no C# build step in this repo.
 - Target dialect is **SQL Server 2014**. Syntax that only exists in newer versions must be marked
   with ⚠️ in the lessons, because the company server is 2014.
 - Practice environment: the company SQL Server 2014 Express instance `localhost\SQLEXPRESS`
@@ -29,7 +32,20 @@ with safe database access from C#.
   reference check (each is reported as a warning so it is visible).
 - End-to-end validation is still manual: run the `.sql` files with `sqlcmd` against a live
   server and compare the `-- 預期：` values in `answers.sql`. There is no CI (the git remote is a
-  local Gitea instance).
+  local Gitea instance). All five days currently pass against `localhost\SQLEXPRESS`
+  (SQL Server 2014 Express, 12.0.2000.8); Day 5 exercises read only 2014 orders
+  (`OrderDate < '2015-01-01'`) so their expected values stay stable despite the dynamically dated
+  seed rows. Exact command (the `-f 65001` is required for UTF-8 input):
+
+  ```bat
+  sqlcmd -S localhost\SQLEXPRESS -E -d learning_db -b -f 65001 -i curriculum\day05_window_csharp\answers.sql
+  ```
+
+  Output is CP950 on this machine; decode it before diffing the expected values. DML/DDL
+  exercises are wrapped in transactions that end with `IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;`,
+  so running them must not change the data. Re-check `COUNT(*)` plus `CHECKSUM_AGG` afterwards.
+  Rolled-back identity inserts still advance `IDENT_CURRENT`, so never hardcode identity values in
+  answers.
 - Do not invent commands — when you add tooling, document the exact commands here and in `README.md`.
 
 ## Workflow

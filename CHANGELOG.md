@@ -22,6 +22,7 @@
 - `AGENTS.md`：新增「工作流程（Workflow）」章節——動工前確認、編輯規範、Commit 規則（每次修改都要提交，且說明改了什麼與為何）、大變動拆成多次 commit、CHANGELOG 與 TODO 維護方式、Python 一律使用 `uv`、未經允許不得 push、完成前檢查清單與回報格式。
 
 ### [Changed]
+- `AGENTS.md`：`## Repo status` 改為 5 天教材全部完成並經實機驗證，載明 Day 5 的 C# 範圍只到文章與可複製片段（沒有專案、沒有 C# 建置），並補上實機驗證指令（`sqlcmd -b -f 65001`）、CP950 輸出解碼、交易回滾後以 `COUNT(*)`／`CHECKSUM_AGG` 複查，以及「回滾的 INSERT 仍會推進識別值」的提醒。
 - `README.md`：課程總覽的 Day 5 改為連結 `curriculum/day05_window_csharp/lesson.md` 並標記完成。
 - `curriculum/README.md`：5 天教材全部完成，資料夾結構加入 `day05_window_csharp/`。
 - `TODO.md`：勾選 Day 5 與「全部完成後更新根目錄 README」，並修正錯字。
