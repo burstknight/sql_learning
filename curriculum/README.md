@@ -16,7 +16,7 @@
 | Day 4 | `day04_transaction_perf/` | 交易＋效能＋T-SQL 程式 | 交易與隔離級別、索引與執行計畫、變數與流程控制 |
 | Day 5 | `day05_window_csharp/` | 視窗函數＋實務＋C# 串接 | ROW_NUMBER 等、常用食譜、SqlClient/Dapper/EF Core |
 
-Day 5 規劃中，完成後會出現在 TODO.md。
+5 天教材均已完成；進度與待辦見 `TODO.md`。
 
 ## 資料夾結構
 
@@ -33,7 +33,8 @@ curriculum/
 │   └── answers.sql    ← 參考答案＋解說
 ├── day02_aggregate_join/   ← 結構同上
 ├── day03_subquery_dml/     ← 結構同上
-└── day04_transaction_perf/ ← 結構同上
+├── day04_transaction_perf/ ← 結構同上
+└── day05_window_csharp/    ← 結構同上
 ```
 
 ## 使用方式

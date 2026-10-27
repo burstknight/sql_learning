@@ -22,6 +22,9 @@
 - `AGENTS.md`：新增「工作流程（Workflow）」章節——動工前確認、編輯規範、Commit 規則（每次修改都要提交，且說明改了什麼與為何）、大變動拆成多次 commit、CHANGELOG 與 TODO 維護方式、Python 一律使用 `uv`、未經允許不得 push、完成前檢查清單與回報格式。
 
 ### [Changed]
+- `README.md`：課程總覽的 Day 5 改為連結 `curriculum/day05_window_csharp/lesson.md` 並標記完成。
+- `curriculum/README.md`：5 天教材全部完成，資料夾結構加入 `day05_window_csharp/`。
+- `TODO.md`：勾選 Day 5 與「全部完成後更新根目錄 README」，並修正錯字。
 - `README.md`：課程總覽的 Day 4 改為連結 `curriculum/day04_transaction_perf/lesson.md` 並標記完成。
 - `curriculum/README.md`：路線圖的待完成範圍改為 Day 5，資料夾結構加入 `day04_transaction_perf/`。
 - `TODO.md`：勾選 Day 4 教材產出完成；檢查工具限制補上 `sp_executesql`。
