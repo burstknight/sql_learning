@@ -44,7 +44,7 @@ tools/test.sh                                 # 檢查工具自己的測試（�
 |------|------|
 | [Day 1](curriculum/day01_select/lesson.md) | 連線與 sqlcmd、SQLite→T-SQL 遷移、SELECT、WHERE ✅ |
 | [Day 2](curriculum/day02_aggregate_join/lesson.md) | 聚合、GROUP BY/HAVING、JOIN ✅ |
-| Day 3 | 子查詢、CTE、INSERT/UPDATE/DELETE 安全實務（規劃中） |
+| [Day 3](curriculum/day03_subquery_dml/lesson.md) | 子查詢、CTE、INSERT/UPDATE/DELETE 安全實務 ✅ |
 | Day 4 | 交易、索引與執行計畫、T-SQL 程式基礎（規劃中） |
 | Day 5 | 視窗函數、實務食譜、C# 串接（SqlClient/Dapper/EF Core）（規劃中） |
 

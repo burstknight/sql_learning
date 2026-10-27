@@ -18,6 +18,9 @@
 - `AGENTS.md`：新增「工作流程（Workflow）」章節——動工前確認、編輯規範、Commit 規則（每次修改都要提交，且說明改了什麼與為何）、大變動拆成多次 commit、CHANGELOG 與 TODO 維護方式、Python 一律使用 `uv`、未經允許不得 push、完成前檢查清單與回報格式。
 
 ### [Changed]
+- `README.md`：課程總覽的 Day 3 改為連結 `curriculum/day03_subquery_dml/lesson.md` 並標記完成。
+- `curriculum/README.md`：路線圖的待完成範圍改為 Day 4～5，資料夾結構加入 `day03_subquery_dml/`。
+- `TODO.md`：勾選 Day 3 教材產出完成。
 - `AGENTS.md`：專案現況改為「離線檢查工具＋手動實跑」——新增 `tools/check.sh`／`tools/test.sh` 指令、三層檢查說明與已知限制（暫存表、`ALTER TABLE` 批次跳過參考檢查），移除「完全沒有 build/test」與「ARM64 不可行」的過時敘述；編輯規則與完成檢查清單補上執行檢查工具。
 - `README.md`：新增「教材檢查（離線）」章節與工具清單項目；環境章改為「ARM64 需先換 4KB 頁核心，尚未驗證」。
 - `curriculum/README.md`：使用方式補上離線檢查步驟；環境對照與資料夾結構的 ARM64 敘述同步更新。
